@@ -1,2 +1,63 @@
-# circle64
-A 64-bit C++ bare metal environment for Raspberry Pi
+Circle64
+========
+
+> If you read this file in an editor you should switch line wrapping on.
+
+Overview
+--------
+
+Circle64 is a 64-bit C++ bare metal programming environment for the Raspberry Pi 3. It provides several ready-tested C++ classes which can be used to control different hardware features of the Raspberry Pi 3. Together with Circle there are delivered some samples which demonstrate the use of its classes.
+
+This is a 64-bit port (using AArch64) of Circle (32-bit). At the moment there are only some basic features supported:
+
+* 64-bit C++ build environment
+* Simple delay functionality
+* Get properties (model, memory size) from VideoCore
+* new and delete
+* Using GPIO pins
+* Manipulating Act LED
+* Set pixel on screen
+* Use kernel options
+* Formatting strings
+* Using devices
+* Writing characters to screen
+* Writing characters to UART
+* Logging output to screen or UART
+* Using assertions and debug hexdump
+* Using interrupts
+* Timer class with clock, timers and calibrated delay loop
+* Exception handler
+* Using GPIO interrupts
+
+Have a look at [Circle (32-bit)](https://github.com/rsta2/circle) for further information.
+
+Building
+--------
+
+Building is normally done on PC Linux. You need a toolchain with ARMv8 AArch64 (Cortex-A53) support. gcc-linaro-aarch64-linux-gnu-4.8-2013.10_linux.tar.xz which can be downloaded [here](https://launchpad.net/linaro-toolchain-binaries/+milestone/2013.10/) should work (also available as .bz2 file).
+
+First edit the file *Rules.mk* and set the *PREFIX* of your toolchain commands. Alternatively you can create a *Config.mk* file (which is ignored by git) and set the *PREFIX* variable to the prefix of your compiler like this (don't forget the dash at the end):
+
+`PREFIX = aarch64-linux-gnu-`
+
+Then go to the build root of Circle and do:
+
+`./makeall clean`  
+`./makeall`
+
+By default only the latest sample (with the highest number) is build. The ready build *kernel.img* file should be in its subdirectory of sample/. If you want to build another sample after `makeall` go to its subdirectory and do `make`.
+
+Installation
+------------
+
+Copy a recent Raspberry Pi firmware (from boot/ directory, do *make* there to get them) files and the *config.txt* file from the same directory along with the kernel.img (from sample/ subdirectory) to a SD(HC) card with FAT file system. Put the SD(HC) card into the Raspberry Pi 3 and start it.
+
+Note that the file *kernel.img* can be renamed to *kernel7.img* but this is optional.
+
+Directories
+-----------
+
+* include: The common header files, most class headers are in the include/circle/ subdirectory.
+* lib: The Circle class implementation and support files.
+* sample: Several sample applications using Circle in different subdirectories. The main function is implemented in the CKernel class.
+* boot: Do *make* in this directory to get the Raspberry Pi firmware files required to boot.
