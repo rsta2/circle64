@@ -374,10 +374,12 @@ void CTimer::TuneMsDelay (void)
 	MsDelay (1000);
 	nTicks = GetTicks () - nTicks;
 
-	unsigned nFactor = 100 * HZ / nTicks / SPEED_SCALE;
+	unsigned nFactor = 100 * HZ / nTicks;
 
 	m_nMsDelay = m_nMsDelay * nFactor / 100;
 	m_nusDelay = (m_nMsDelay + 500) / 1000;
+
+	nFactor /= SPEED_SCALE;
 
 	CLogger::Get ()->Write (FromTimer, LogNotice, "SpeedFactor is %u.%02u",
 				nFactor / 100, nFactor % 100);
