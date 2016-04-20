@@ -34,7 +34,7 @@
 #define EXCEPTION_STACK_SIZE	0x8000
 #define PAGE_RESERVE		(4 * MEGABYTE)
 
-#define MEM_KERNEL_START	0x8000						// main code starts here
+#define MEM_KERNEL_START	0x80000						// main code starts here
 #define MEM_KERNEL_END		(MEM_KERNEL_START + KERNEL_MAX_SIZE)
 #define MEM_KERNEL_STACK	(MEM_KERNEL_END + KERNEL_STACK_SIZE)		// expands down
 #define MEM_ABORT_STACK		(MEM_KERNEL_STACK + EXCEPTION_STACK_SIZE)

@@ -6,7 +6,7 @@
 # 	which is Copyright (c) 2012 David Welch dwelch@dwelch.com
 #
 # Circle - A C++ bare metal environment for Raspberry Pi
-# Copyright (C) 2014  R. Stange <rsta2@o2online.de>
+# Copyright (C) 2014-2016  R. Stange <rsta2@o2online.de>
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,10 +26,10 @@ ifeq ($(strip $(CIRCLEHOME)),)
 CIRCLEHOME = ../..
 endif
 
-kernel.img: $(CIRCLEHOME)/circle.ld $(CIRCLEHOME)/lib/startup.o $(OBJS) $(LIBS)
-	$(LD) -o kernel.elf -Map kernel.map -T $(CIRCLEHOME)/circle.ld $(CIRCLEHOME)/lib/startup.o $(OBJS) $(LIBS)
-	$(PREFIX)objdump -d kernel.elf | $(PREFIX)c++filt > kernel.lst
-	$(PREFIX)objcopy kernel.elf -O binary kernel.img
-	wc -c kernel.img
+kernel8.img: $(CIRCLEHOME)/circle.ld $(CIRCLEHOME)/lib/startup.o $(OBJS) $(LIBS)
+	$(LD) -o kernel8.elf -Map kernel8.map -T $(CIRCLEHOME)/circle.ld $(CIRCLEHOME)/lib/startup.o $(OBJS) $(LIBS)
+	$(PREFIX)objdump -d kernel8.elf | $(PREFIX)c++filt > kernel8.lst
+	$(PREFIX)objcopy kernel8.elf -O binary kernel8.img
+	wc -c kernel8.img
 
 include $(CIRCLEHOME)/Rules.mk

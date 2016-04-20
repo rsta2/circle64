@@ -1,6 +1,8 @@
 Circle64
 ========
 
+> Raspberry Pi is a trademark of the Raspberry Pi Foundation.
+
 > If you read this file in an editor you should switch line wrapping on.
 
 Overview
@@ -50,9 +52,7 @@ By default only the latest sample (with the highest number) is build. The ready 
 Installation
 ------------
 
-Copy a recent Raspberry Pi firmware (from boot/ directory, do *make* there to get them) files and the *config.txt* file from the same directory along with the kernel.img (from sample/ subdirectory) to a SD(HC) card with FAT file system. Put the SD(HC) card into the Raspberry Pi 3 and start it.
-
-Note that the file *kernel.img* can be renamed to *kernel7.img* but this is optional.
+Copy a recent Raspberry Pi firmware (from boot/ directory, do *make* there to get them) files along with the kernel8.img (from sample/ subdirectory) to a SD(HC) card with FAT file system. Put the SD(HC) card into the Raspberry Pi 3 and start it.
 
 Directories
 -----------
