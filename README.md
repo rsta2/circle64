@@ -30,6 +30,7 @@ This is a 64-bit port (using AArch64) of Circle (32-bit). At the moment there ar
 * Timer class with clock, timers and calibrated delay loop
 * Exception handler
 * Using GPIO interrupts
+* Switch on MMU
 
 Have a look at [Circle (32-bit)](https://github.com/rsta2/circle) for further information.
 

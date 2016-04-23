@@ -32,16 +32,10 @@ void *operator new[] (size_t nSize)
 
 void operator delete (void *pBlock)
 {
-	if (pBlock != 0)
-	{
-		free (pBlock);
-	}
+	free (pBlock);
 }
 
 void operator delete[] (void *pBlock)
 {
-	if (pBlock != 0)
-	{
-		free (pBlock);
-	}
+	free (pBlock);
 }

@@ -165,7 +165,11 @@ void *malloc (unsigned long ulSize)
 
 void free (void *pBlock)
 {
-	assert (pBlock != 0);
+	if (pBlock == 0)
+	{
+		return;
+	}
+
 	TBlockHeader *pBlockHeader = (TBlockHeader *) ((unsigned long) pBlock - sizeof (TBlockHeader));
 	assert (pBlockHeader->nMagic == BLOCK_MAGIC);
 
@@ -230,7 +234,11 @@ void *palloc (void)
 
 void pfree (void *pPage)
 {
-	assert (pPage != 0);
+	if (pPage == 0)
+	{
+		return;
+	}
+
 	TFreePage *pFreePage = (TFreePage *) pPage;
 	
 	s_PageSpinLock.Acquire ();

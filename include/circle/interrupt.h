@@ -44,7 +44,7 @@ public:
 	static void InterruptHandler (void);
 
 private:
-	int CallIRQHandler (unsigned nIRQ);
+	boolean CallIRQHandler (unsigned nIRQ);
 
 private:
 	TIRQHandler	*m_apIRQHandler[IRQ_LINES];

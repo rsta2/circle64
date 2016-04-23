@@ -27,12 +27,12 @@
 #define GPU_MEM_SIZE		(64 * MEGABYTE)			// set in config.txt
 #define ARM_MEM_SIZE		(MEM_SIZE - GPU_MEM_SIZE)	// normally overwritten
 
-#define PAGE_SIZE		4096				// page size used by us
+#define PAGE_SIZE		0x10000				// page size used by us
 
 #define KERNEL_MAX_SIZE		(2 * MEGABYTE)			// all sizes must be a multiple of 16K
 #define KERNEL_STACK_SIZE	0x20000
 #define EXCEPTION_STACK_SIZE	0x8000
-#define PAGE_RESERVE		(4 * MEGABYTE)
+#define PAGE_RESERVE		(16 * MEGABYTE)
 
 #define MEM_KERNEL_START	0x80000						// main code starts here
 #define MEM_KERNEL_END		(MEM_KERNEL_START + KERNEL_MAX_SIZE)
@@ -40,6 +40,7 @@
 #define MEM_ABORT_STACK		(MEM_KERNEL_STACK + EXCEPTION_STACK_SIZE)
 #define MEM_IRQ_STACK		(MEM_ABORT_STACK + EXCEPTION_STACK_SIZE)
 
-#define MEM_HEAP_START		0x400000
+#define MEM_COHERENT_REGION	0x400000
+#define MEM_HEAP_START		0x500000
 
 #endif

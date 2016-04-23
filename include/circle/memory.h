@@ -21,18 +21,26 @@
 #define _circle_memory_h
 
 #include <circle/sysconfig.h>
+#include <circle/translationtable.h>
 #include <circle/types.h>
 
 class CMemorySystem
 {
 public:
-	CMemorySystem (boolean bEnableMMU = FALSE);
+	CMemorySystem (boolean bEnableMMU = TRUE);
 	~CMemorySystem (void);
 
-	u32 GetMemSize (void) const;
+	u64 GetMemSize (void) const;
 
 private:
-	u32 m_nMemSize;
+	void EnableMMU (void);
+
+private:
+	boolean m_bEnableMMU;
+
+	u64 m_nMemSize;
+
+	CTranslationTable *m_pTranslationTable;
 };
 
 #endif

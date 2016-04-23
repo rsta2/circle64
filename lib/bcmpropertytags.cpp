@@ -21,6 +21,7 @@
 #include <circle/util.h>
 #include <circle/synchronize.h>
 #include <circle/bcm2835.h>
+#include <circle/sysconfig.h>
 #include <circle/macros.h>
 #include <assert.h>
 
@@ -52,10 +53,7 @@ boolean CBcmPropertyTags::GetTag (u32 nTagId, void *pTag, unsigned nTagSize, uns
 	unsigned nBufferSize = sizeof (TPropertyBuffer) + nTagSize + sizeof (u32);
 	assert ((nBufferSize & 3) == 0);
 
-	// cannot use "new" here because this is used before mem_init() is called
-	u8 Buffer[nBufferSize + 15];
-	TPropertyBuffer *pBuffer = (TPropertyBuffer *) (((u64) Buffer + 15) & ~15);
-	
+	TPropertyBuffer *pBuffer = (TPropertyBuffer *) MEM_COHERENT_REGION;
 	pBuffer->nBufferSize = nBufferSize;
 	pBuffer->nCode = CODE_REQUEST;
 	memcpy (pBuffer->Tags, pTag, nTagSize);

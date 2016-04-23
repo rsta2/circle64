@@ -155,7 +155,7 @@ boolean CScreenDevice::SetStatus (TScreenStatus Status)
 		return FALSE;
 	}
 
-	memcpy (m_pBuffer, Status.pContent, m_nSize);
+	memcpyblk (m_pBuffer, Status.pContent, m_nSize);
 
 	m_nState     = Status.nState;
 	m_nCursorX   = Status.nCursorX;
@@ -672,7 +672,7 @@ void CScreenDevice::Scroll (void)
 
 	unsigned nSize = m_nWidth * (m_nUsedHeight - nLines) * sizeof (TScreenColor);
 
-	memcpy (pTo, pFrom, nSize);
+	memcpyblk (pTo, pFrom, nSize);
 	pTo += nSize / sizeof (u32);
 
 	nSize = m_nWidth * nLines * sizeof (TScreenColor) / sizeof (u32);

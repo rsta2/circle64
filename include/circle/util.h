@@ -64,6 +64,9 @@ u32 bswap32 (u32 ulValue);
 #define be2le16		bswap16
 #define be2le32		bswap32
 
+// util_fast
+void *memcpyblk (void *pDest, const void *pSrc, size_t nLength);	// nLength must be multiple of 16
+
 #ifdef __cplusplus
 }
 #endif

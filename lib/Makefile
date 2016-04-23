@@ -20,8 +20,9 @@
 
 OBJS	= actled.o alloc.o assert.o bcmframebuffer.o bcmmailbox.o bcmpropertytags.o chargenerator.o \
 	  debug.o delayloop.o device.o devicenameservice.o exceptionstub.o exceptionhandler.o \
-	  gpiomanager.o gpiopin.o interrupt.o koptions.o logger.o memio.o memory.o new.o ptrarray.o \
-	  ptrlist.o screen.o serial.o string.o synchronize.o sysinit.o timer.o util.o virtualgpiopin.o
+	  gpiomanager.o gpiopin.o interrupt.o koptions.o logger.o memory.o new.o ptrarray.o \
+	  ptrlist.o screen.o serial.o string.o synchronize.o sysinit.o timer.o util.o virtualgpiopin.o \
+	  translationtable.o util_fast.o
 
 all: startup.o libcircle.a
 

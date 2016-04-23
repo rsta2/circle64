@@ -25,7 +25,7 @@
 #include <circle/debug.h>
 #include <assert.h>
 
-#define SPEED_SCALE	5
+#define SPEED_SCALE	1
 
 struct TKernelTimer
 {

@@ -4,3 +4,4 @@ SAMPLES
 02-screenpixel		Setting pixels on screen
 03-screentext		Writing text to screen, debug_hexdump() and assert usage
 04-timer		Interrupt driven timer, exception handler demonstration
+09-softserial		GPIO interrupt demonstration, serial interface via non-UART GPIO-pins

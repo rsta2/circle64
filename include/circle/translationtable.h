@@ -1,9 +1,9 @@
 //
-// memio.cpp
+// translationtable.h
 //
 // Circle - A C++ bare metal environment for Raspberry Pi
-// Copyright (C) 2014-2016  R. Stange <rsta2@o2online.de>
-// 
+// Copyright (C) 2016  R. Stange <rsta2@o2online.de>
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -17,14 +17,32 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-#include <circle/memio.h>
+#ifndef _circle_translationtable_h
+#define _circle_translationtable_h
 
-u32 read32 (u64 nAddress)
-{
-	return *(u32 *) nAddress;
-}
+#include <circle/armv8mmu.h>
+#include <circle/types.h>
 
-void write32 (u64 nAddress, u32 nValue)
+// index into MAIR_EL1 register
+#define ATTRINDX_NORMAL		0
+#define ATTRINDX_DEVICE		1
+#define ATTRINDX_COHERENT	2
+
+class CTranslationTable
 {
-	*(u32 *) nAddress = nValue;
-}
+public:
+	CTranslationTable (u64 nMemSize);
+	~CTranslationTable (void);
+
+	u64 GetBaseAddress (void) const;
+
+private:
+	TARMV8MMU_LEVEL3_DESCRIPTOR *CreateLevel3Table (u64 nBaseAddress);
+
+private:
+	u64 m_nMemSize;
+
+	TARMV8MMU_LEVEL2_DESCRIPTOR *m_pTable;
+};
+
+#endif

@@ -37,6 +37,20 @@ void EnterCritical (void);
 void LeaveCritical (void);
 
 //
+// Cache control
+//
+#define InvalidateInstructionCache()	asm volatile ("ic iallu" ::: "memory")
+#define FlushPrefetchBuffer()		asm volatile ("isb" ::: "memory")
+
+void InvalidateDataCache (void) MAXOPT;
+void InvalidateDataCacheL1Only (void) MAXOPT;
+void CleanDataCache (void) MAXOPT;
+
+void InvalidateDataCacheRange (u64 nAddress, u64 nLength) MAXOPT;
+void CleanDataCacheRange (u64 nAddress, u64 nLength) MAXOPT;
+void CleanAndInvalidateDataCacheRange (u64 nAddress, u64 nLength) MAXOPT;
+
+//
 // Barriers
 //
 #define DataSyncBarrier()	asm volatile ("dsb sy" ::: "memory")

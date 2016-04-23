@@ -30,6 +30,9 @@ typedef signed short		s16;
 typedef signed int		s32;
 typedef signed long		s64;
 
+typedef long			intptr;
+typedef unsigned long		uintptr;
+
 typedef int		boolean;
 #define FALSE		0
 #define TRUE		1

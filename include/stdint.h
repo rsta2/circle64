@@ -1,8 +1,8 @@
 //
-// memio.h
+// stdint.h
 //
 // Circle - A C++ bare metal environment for Raspberry Pi
-// Copyright (C) 2014-2016  R. Stange <rsta2@o2online.de>
+// Copyright (C) 2016  R. Stange <rsta2@o2online.de>
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,27 +17,22 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-#ifndef _circle_memio_h
-#define _circle_memio_h
+#ifndef _stdint_h
+#define _stdint_h
 
-#include <circle/types.h>
+// POSIX types
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+typedef unsigned char		uint8_t;
+typedef unsigned short		uint16_t;
+typedef unsigned int		uint32_t;
+typedef unsigned long		uint64_t;
 
-static inline u32 read32 (uintptr nAddress)
-{
-	return *(u32 volatile *) nAddress;
-}
+typedef signed char		int8_t;
+typedef signed short		int16_t;
+typedef signed int		int32_t;
+typedef signed long		int64_t;
 
-static inline void write32 (uintptr nAddress, u32 nValue)
-{
-	*(u32 volatile *) nAddress = nValue;
-}
-
-#ifdef __cplusplus
-}
-#endif
+typedef long			intptr_t;
+typedef unsigned long		uintptr_t;
 
 #endif
