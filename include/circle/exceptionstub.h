@@ -35,6 +35,8 @@ struct TAbortFrame
 	u64	elr_el1;
 	u64	sp_el0;
 	u64	sp_el1;
+	u64	far_el1;
+	u64	unused;
 }
 PACKED;
 

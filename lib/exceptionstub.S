@@ -37,7 +37,9 @@
 	mrs	x3, elr_el1
 	mrs	x4, sp_el0
 	mov	x5, sp
+	mrs	x6, far_el1
 
+	str	x6, [sp, #-16]!
 	stp	x4, x5, [sp, #-16]!
 	stp	x2, x3, [sp, #-16]!
 	stp	x0, x1, [sp, #-16]!

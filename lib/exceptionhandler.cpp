@@ -57,16 +57,24 @@ void CExceptionHandler::Throw (u64 nException, TAbortFrame *pFrame)
 		sp = pFrame->sp_el1;
 	}
 
+	u64 nEC  = (pFrame->esr_el1 >> 26) & 0x3F;
+	u64 nISS = pFrame->esr_el1 & 0x1FFFFFFF;
+
+	u64 nFAR = 0;
+	if (   (0x20 <= nEC && nEC <= 0x25)
+	    || (0x34 <= nEC && nEC <= 0x35))
+	{
+		nFAR = pFrame->far_el1;
+	}
+
 #ifndef NDEBUG
 	debug_stacktrace ((u64 *) sp, FromExcept);
 #endif
 
 	CLogger::Get()->Write (FromExcept, LogPanic,
-		"%s (PC 0x%lX, EC 0x%lX, ISS 0x%lX, SP 0x%lX, LR 0x%lX, SPSR 0x%lX)",
+		"%s (PC 0x%lX, EC 0x%lX, ISS 0x%lX, FAR 0x%lX, SP 0x%lX, LR 0x%lX, SPSR 0x%lX)",
 		s_pExceptionName[nException],
-		pFrame->elr_el1,
-		(pFrame->esr_el1 >> 26) & 0x3F, pFrame->esr_el1 & 0x1FFFFFFF,
-		sp, pFrame->x30, pFrame->spsr_el1);
+		pFrame->elr_el1, nEC, nISS, nFAR, sp, pFrame->x30, pFrame->spsr_el1);
 }
 
 CExceptionHandler *CExceptionHandler::Get (void)
