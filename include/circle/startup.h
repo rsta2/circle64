@@ -21,6 +21,7 @@
 #define _circle_startup_h
 
 #include <circle/sysconfig.h>
+#include <circle/types.h>
 
 #define EXIT_HALT	0
 #define EXIT_REBOOT	1
@@ -31,6 +32,20 @@ extern "C" {
 
 void halt (void);
 void reboot (void);
+
+#ifdef ARM_ALLOW_MULTI_CORE
+
+struct TSpinTable
+{
+	uintptr SpinCore[CORES];
+};
+
+#define ARM_SPIN_TABLE_BASE	0x000000D8
+
+void _start_secondary (void);
+void main_secondary (void);
+
+#endif
 
 #ifdef __cplusplus
 }

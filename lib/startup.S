@@ -80,8 +80,8 @@ _start:					/* normally entered from armstub8 in EL2 after boot */
 	cmp	x0, #4
 	beq	1f
 
-	ldr	x0, =MEM_IRQ_STACK	/* IRQ handler runs in EL1h */
-	msr	sp_el1, x0		/* init its stack */
+	ldr	x0, =MEM_EXCEPTION_STACK /* IRQ and exception handler run in EL1h */
+	msr	sp_el1, x0		/* init their stack */
 
 	armv8_switch_to_el1_m x0, x1
 
@@ -91,10 +91,39 @@ _start:					/* normally entered from armstub8 in EL2 after boot */
 	ldr	x0, =VectorTable	/* init exception vector table */
 	msr	vbar_el1, x0
 
-	mrs	x0, sctlr_el1		/* enable instruction cache */
-	orr	x0, x0, #(1 << 12)
-	msr	sctlr_el1, x0
-
 	b	sysinit
+
+#ifdef ARM_ALLOW_MULTI_CORE
+
+	.globl	_start_secondary
+_start_secondary:			/* normally entered from armstub8 in EL2 after boot */
+
+	mrs	x2, mpidr_el1		/* read affinity */
+	and	x2, x2, #CORES-1	/* get CPU ID */
+
+	mrs	x0, CurrentEL		/* check if already in EL1t mode? */
+	cmp	x0, #4
+	beq	1f
+
+	mov	x1, #EXCEPTION_STACK_SIZE /* calculate exception stack offset for core */
+	mul	x1, x1, x2
+	ldr	x0, =MEM_EXCEPTION_STACK /* IRQ and exception handler run in EL1h */
+	add	x0, x0, x1
+	msr	sp_el1, x0		/* init their stack */
+
+	armv8_switch_to_el1_m x0, x1
+
+1:	mov	x1, #KERNEL_STACK_SIZE	/* calculate kernel stack offset for core */
+	mul	x1, x1, x2
+	ldr	x0, =MEM_KERNEL_STACK	/* main thread runs in EL1t and uses sp_el0 */
+	add	x0, x0, x1
+	mov	sp, x0			/* init its stack */
+
+	ldr	x0, =VectorTable	/* init exception vector table */
+	msr	vbar_el1, x0
+
+	b	sysinit_secondary
+
+#endif
 
 /* End */

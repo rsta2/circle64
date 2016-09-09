@@ -26,7 +26,26 @@
 
 #ifdef ARM_ALLOW_MULTI_CORE
 
-#error CSpinLock not implemented with ARM_ALLOW_MULTI_CORE!
+class CSpinLock
+{
+public:
+	// call constructor with bDisableIRQ = FALSE if spin lock is not used from IRQ context
+	CSpinLock (boolean bDisableIRQ = TRUE);
+	~CSpinLock (void);
+
+	void Acquire (void);
+	void Release (void);
+
+	static void Enable (void);
+
+private:
+	boolean m_bDisableIRQ;
+	u64 m_nDAIF[CORES];
+
+	boolean m_bLocked;
+
+	static boolean s_bEnabled;
+};
 
 #else
 

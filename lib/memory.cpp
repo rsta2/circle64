@@ -20,6 +20,7 @@
 #include <circle/memory.h>
 #include <circle/bcmpropertytags.h>
 #include <circle/alloc.h>
+#include <circle/spinlock.h>
 #include <circle/sysconfig.h>
 #include <assert.h>
 
@@ -47,12 +48,27 @@ CMemorySystem::CMemorySystem (boolean bEnableMMU)
 		assert (m_pTranslationTable != 0);
 
 		EnableMMU ();
+
+#ifdef ARM_ALLOW_MULTI_CORE
+		CSpinLock::Enable ();
+#endif
 	}
 }
 
 CMemorySystem::~CMemorySystem (void)
 {
 }
+
+#ifdef ARM_ALLOW_MULTI_CORE
+
+void CMemorySystem::InitializeSecondary (void)
+{
+	assert (m_bEnableMMU);		// required to use spin locks
+
+	EnableMMU ();
+}
+
+#endif
 
 u64 CMemorySystem::GetMemSize (void) const
 {

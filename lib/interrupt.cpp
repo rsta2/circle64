@@ -19,6 +19,7 @@
 //
 #include <circle/interrupt.h>
 #include <circle/synchronize.h>
+#include <circle/multicore.h>
 #include <circle/bcm2835.h>
 #include <circle/memio.h>
 #include <circle/exceptionstub.h>

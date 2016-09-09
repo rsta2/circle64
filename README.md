@@ -31,6 +31,7 @@ This is a 64-bit port (using AArch64) of Circle (32-bit). At the moment there ar
 * Exception handler
 * Using GPIO interrupts
 * Switch on MMU
+* Multi-core support
 
 Have a look at [Circle (32-bit)](https://github.com/rsta2/circle) for further information.
 

@@ -38,13 +38,41 @@ void __cxa_atexit (void *pThis, void (*pFunc)(void *pThis), void *pHandle)
 void halt (void)
 {
 #ifdef ARM_ALLOW_MULTI_CORE
-	#error halt() not implemented with ARM_ALLOW_MULTI_CORE!
+	static volatile boolean s_bCoreHalted[CORES] = {FALSE};
+
+	u64 nMPIDR;
+	asm volatile ("mrs %0, mpidr_el1" : "=r" (nMPIDR));
+	unsigned nCore = nMPIDR & (CORES-1);
+
+	// core 0 must not halt until all secondary cores have been halted
+	if (nCore == 0)
+	{
+		unsigned nSecCore = 1;
+		while (nSecCore < CORES)
+		{
+			DataMemBarrier ();
+			if (!s_bCoreHalted[nSecCore])
+			{
+				DataSyncBarrier ();
+				asm volatile ("wfi");
+
+				nSecCore = 1;
+			}
+			else
+			{
+				nSecCore++;
+			}
+		}
+	}
+
+	s_bCoreHalted[nCore] = TRUE;
+	DataMemBarrier ();
 #endif
 
 	DisableInterrupts ();
 
 	DataSyncBarrier ();
-	
+
 	for (;;)
 	{
 		asm volatile ("wfi");
@@ -87,6 +115,17 @@ void sysinit (void)
 
 	halt ();
 }
+
+#ifdef ARM_ALLOW_MULTI_CORE
+
+void sysinit_secondary (void)
+{
+	main_secondary ();
+
+	halt ();
+}
+
+#endif
 
 #ifdef __cplusplus
 }

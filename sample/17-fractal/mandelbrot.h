@@ -1,8 +1,8 @@
 //
-// memory.h
+// mandelbrot.h
 //
 // Circle - A C++ bare metal environment for Raspberry Pi
-// Copyright (C) 2014-2016  R. Stange <rsta2@o2online.de>
+// Copyright (C) 2015-2016  R. Stange <rsta2@o2online.de>
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,34 +17,35 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-#ifndef _circle_memory_h
-#define _circle_memory_h
+#ifndef _mandelbrot_h
+#define _mandelbrot_h
 
-#include <circle/sysconfig.h>
-#include <circle/translationtable.h>
+#include <circle/multicore.h>
+#include <circle/screen.h>
+#include <circle/memory.h>
 #include <circle/types.h>
 
-class CMemorySystem
+class CMandelbrotCalculator
+#ifdef ARM_ALLOW_MULTI_CORE
+	: public CMultiCoreSupport
+#endif
 {
 public:
-	CMemorySystem (boolean bEnableMMU = TRUE);
-	~CMemorySystem (void);
+	CMandelbrotCalculator (CScreenDevice *pScreen, CMemorySystem *pMemorySystem);
+	~CMandelbrotCalculator (void);
 
-#ifdef ARM_ALLOW_MULTI_CORE
-	void InitializeSecondary (void);
+#ifndef ARM_ALLOW_MULTI_CORE
+	boolean Initialize (void)	{ return TRUE; }
 #endif
 
-	u64 GetMemSize (void) const;
+	void Run (unsigned nCore);
 
 private:
-	void EnableMMU (void);
+	void Calculate (double x1, double x2, double y1, double y2, unsigned nMaxIteration,
+			unsigned nPosY0, unsigned nHeight);
 
 private:
-	boolean m_bEnableMMU;
-
-	u64 m_nMemSize;
-
-	CTranslationTable *m_pTranslationTable;
+	CScreenDevice *m_pScreen;
 };
 
 #endif

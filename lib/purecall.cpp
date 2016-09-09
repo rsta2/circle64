@@ -1,8 +1,8 @@
 //
-// memory.h
+// purecall.cpp
 //
 // Circle - A C++ bare metal environment for Raspberry Pi
-// Copyright (C) 2014-2016  R. Stange <rsta2@o2online.de>
+// Copyright (C) 2014  R. Stange <rsta2@o2online.de>
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,34 +17,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-#ifndef _circle_memory_h
-#define _circle_memory_h
+#include <assert.h>
 
-#include <circle/sysconfig.h>
-#include <circle/translationtable.h>
-#include <circle/types.h>
-
-class CMemorySystem
+extern "C" void __cxa_pure_virtual (void)
 {
-public:
-	CMemorySystem (boolean bEnableMMU = TRUE);
-	~CMemorySystem (void);
-
-#ifdef ARM_ALLOW_MULTI_CORE
-	void InitializeSecondary (void);
-#endif
-
-	u64 GetMemSize (void) const;
-
-private:
-	void EnableMMU (void);
-
-private:
-	boolean m_bEnableMMU;
-
-	u64 m_nMemSize;
-
-	CTranslationTable *m_pTranslationTable;
-};
-
-#endif
+	assert (0);
+}

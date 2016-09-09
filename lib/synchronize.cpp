@@ -18,7 +18,48 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 #include <circle/synchronize.h>
+#include <circle/sysconfig.h>
 #include <assert.h>
+
+#ifdef ARM_ALLOW_MULTI_CORE
+
+static volatile unsigned s_nCriticalLevel[CORES] = {0};
+static volatile boolean s_bWereEnabled[CORES];
+
+void EnterCritical (void)
+{
+	u64 nMPIDR;
+	asm volatile ("mrs %0, mpidr_el1" : "=r" (nMPIDR));
+	unsigned nCore = nMPIDR & (CORES-1);
+
+	u64 nFlags;
+	asm volatile ("mrs %0, daif" : "=r" (nFlags));
+
+	DisableInterrupts ();
+
+	if (s_nCriticalLevel[nCore]++ == 0)
+	{
+		s_bWereEnabled[nCore] = nFlags & 0x80 ? FALSE : TRUE;		// check I bit
+	}
+}
+
+void LeaveCritical (void)
+{
+	u64 nMPIDR;
+	asm volatile ("mrs %0, mpidr_el1" : "=r" (nMPIDR));
+	unsigned nCore = nMPIDR & (CORES-1);
+
+	assert (s_nCriticalLevel[nCore] > 0);
+	if (--s_nCriticalLevel[nCore] == 0)
+	{
+		if (s_bWereEnabled[nCore])
+		{
+			EnableInterrupts ();
+		}
+	}
+}
+
+#else
 
 static volatile unsigned s_nCriticalLevel = 0;
 static volatile boolean s_bWereEnabled;
@@ -47,6 +88,8 @@ void LeaveCritical (void)
 		}
 	}
 }
+
+#endif
 
 //
 // Cache maintenance operations for ARMv8-A

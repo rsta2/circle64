@@ -5,3 +5,4 @@ SAMPLES
 03-screentext		Writing text to screen, debug_hexdump() and assert usage
 04-timer		Interrupt driven timer, exception handler demonstration
 09-softserial		GPIO interrupt demonstration, serial interface via non-UART GPIO-pins
+17-fractal		Displaying a fractal image from a Mandelbrot set (may be build for single- or multi-core)
