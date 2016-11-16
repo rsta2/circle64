@@ -2,7 +2,7 @@
 // bcmmailbox.cpp
 //
 // Circle - A C++ bare metal environment for Raspberry Pi
-// Copyright (C) 2014-2015  R. Stange <rsta2@o2online.de>
+// Copyright (C) 2014-2016  R. Stange <rsta2@o2online.de>
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -50,9 +50,9 @@ u32 CBcmMailBox::WriteRead (u32 nData)
 
 void CBcmMailBox::Flush (void)
 {
-	while (!(read32 (MAILBOX_STATUS) & MAILBOX_STATUS_EMPTY))
+	while (!(read32 (MAILBOX0_STATUS) & MAILBOX_STATUS_EMPTY))
 	{
-		read32 (MAILBOX_READ);
+		read32 (MAILBOX0_READ);
 
 		CTimer::SimpleMsDelay (20);
 	}
@@ -64,12 +64,12 @@ u32 CBcmMailBox::Read (void)
 	
 	do
 	{
-		while (read32 (MAILBOX_STATUS) & MAILBOX_STATUS_EMPTY)
+		while (read32 (MAILBOX0_STATUS) & MAILBOX_STATUS_EMPTY)
 		{
 			// do nothing
 		}
 		
-		nResult = read32 (MAILBOX_READ);
+		nResult = read32 (MAILBOX0_READ);
 	}
 	while ((nResult & 0xF) != m_nChannel);		// channel number is in the lower 4 bits
 
@@ -78,11 +78,11 @@ u32 CBcmMailBox::Read (void)
 
 void CBcmMailBox::Write (u32 nData)
 {
-	while (read32 (MAILBOX_STATUS) & MAILBOX_STATUS_FULL)
+	while (read32 (MAILBOX1_STATUS) & MAILBOX_STATUS_FULL)
 	{
 		// do nothing
 	}
 
 	assert ((nData & 0xF) == 0);
-	write32 (MAILBOX_WRITE, m_nChannel | nData);	// channel number is in the lower 4 bits
+	write32 (MAILBOX1_WRITE, m_nChannel | nData);	// channel number is in the lower 4 bits
 }
