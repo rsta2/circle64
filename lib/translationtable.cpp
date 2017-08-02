@@ -2,7 +2,7 @@
 // translationtable.cpp
 //
 // Circle - A C++ bare metal environment for Raspberry Pi
-// Copyright (C) 2016  R. Stange <rsta2@o2online.de>
+// Copyright (C) 2016-2017  R. Stange <rsta2@o2online.de>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -106,7 +106,8 @@ TARMV8MMU_LEVEL3_DESCRIPTOR *CTranslationTable::CreateLevel3Table (u64 nBaseAddr
 				pDesc->AttrIndx = ATTRINDX_DEVICE;
 				pDesc->SH	= ATTRIB_SH_OUTER_SHAREABLE;
 			}
-			else if (nBaseAddress == MEM_COHERENT_REGION)
+			else if (   nBaseAddress >= MEM_COHERENT_REGION
+				 && nBaseAddress <  MEM_HEAP_START)
 			{
 				pDesc->AttrIndx = ATTRINDX_COHERENT;
 				pDesc->SH	= ATTRIB_SH_OUTER_SHAREABLE;

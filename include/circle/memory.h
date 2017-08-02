@@ -2,7 +2,7 @@
 // memory.h
 //
 // Circle - A C++ bare metal environment for Raspberry Pi
-// Copyright (C) 2014-2016  R. Stange <rsta2@o2online.de>
+// Copyright (C) 2014-2017  R. Stange <rsta2@o2online.de>
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -35,6 +35,10 @@ public:
 #endif
 
 	u64 GetMemSize (void) const;
+
+	static u64 GetCoherentPage (unsigned nSlot);
+#define COHERENT_SLOT_PROP_MAILBOX	0
+#define COHERENT_SLOT_GPIO_VIRTBUF	1
 
 private:
 	void EnableMMU (void);

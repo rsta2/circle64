@@ -2,7 +2,7 @@
 // bcmpropertytags.cpp
 //
 // Circle - A C++ bare metal environment for Raspberry Pi
-// Copyright (C) 2014-2016  R. Stange <rsta2@o2online.de>
+// Copyright (C) 2014-2017  R. Stange <rsta2@o2online.de>
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 #include <circle/util.h>
 #include <circle/synchronize.h>
 #include <circle/bcm2835.h>
-#include <circle/sysconfig.h>
+#include <circle/memory.h>
 #include <circle/macros.h>
 #include <assert.h>
 
@@ -53,7 +53,8 @@ boolean CBcmPropertyTags::GetTag (u32 nTagId, void *pTag, unsigned nTagSize, uns
 	unsigned nBufferSize = sizeof (TPropertyBuffer) + nTagSize + sizeof (u32);
 	assert ((nBufferSize & 3) == 0);
 
-	TPropertyBuffer *pBuffer = (TPropertyBuffer *) MEM_COHERENT_REGION;
+	TPropertyBuffer *pBuffer =
+		(TPropertyBuffer *) CMemorySystem::GetCoherentPage (COHERENT_SLOT_PROP_MAILBOX);
 	pBuffer->nBufferSize = nBufferSize;
 	pBuffer->nCode = CODE_REQUEST;
 	memcpy (pBuffer->Tags, pTag, nTagSize);

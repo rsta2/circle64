@@ -2,7 +2,7 @@
 // armv8mmu.h
 //
 // Circle - A C++ bare metal environment for Raspberry Pi
-// Copyright (C) 2016  R. Stange <rsta2@o2online.de>
+// Copyright (C) 2016-2017  R. Stange <rsta2@o2online.de>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -144,6 +144,7 @@ PACKED;
 #define SCTLR_EL1_WXN		(1 << 19)		// SCTLR_EL1
 #define SCTLR_EL1_I		(1 << 12)
 #define SCTLR_EL1_C		(1 << 2)
+#define SCTLR_EL1_A		(1 << 1)
 #define SCTLR_EL1_M		(1 << 0)
 
 #define TCR_EL1_IPS__SHIFT	32			// TCR_EL1
