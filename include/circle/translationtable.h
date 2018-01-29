@@ -2,7 +2,7 @@
 // translationtable.h
 //
 // Circle - A C++ bare metal environment for Raspberry Pi
-// Copyright (C) 2016  R. Stange <rsta2@o2online.de>
+// Copyright (C) 2016-2018  R. Stange <rsta2@o2online.de>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 
 #include <circle/armv8mmu.h>
 #include <circle/types.h>
+#include <circle/macros.h>
 
 // index into MAIR_EL1 register
 #define ATTRINDX_NORMAL		0
@@ -31,13 +32,13 @@
 class CTranslationTable
 {
 public:
-	CTranslationTable (u64 nMemSize);
+	CTranslationTable (u64 nMemSize) NOOPT;
 	~CTranslationTable (void);
 
 	u64 GetBaseAddress (void) const;
 
 private:
-	TARMV8MMU_LEVEL3_DESCRIPTOR *CreateLevel3Table (u64 nBaseAddress);
+	TARMV8MMU_LEVEL3_DESCRIPTOR *CreateLevel3Table (u64 nBaseAddress) NOOPT;
 
 private:
 	u64 m_nMemSize;
