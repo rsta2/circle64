@@ -38,11 +38,11 @@ Have a look at [Circle (32-bit)](https://github.com/rsta2/circle) for further in
 Building
 --------
 
-Building is normally done on PC Linux. You need a toolchain with ARMv8 AArch64 (Cortex-A53) support. gcc-linaro-aarch64-linux-gnu-4.8-2013.10_linux.tar.xz which can be downloaded [here](https://launchpad.net/linaro-toolchain-binaries/+milestone/2013.10/) should work (also available as .bz2 file).
+Building is normally done on PC Linux. You need a toolchain with ARMv8 AArch64 (Cortex-A53) support. *gcc-linaro-7.3.1-2018.05-x86_64_aarch64-elf.tar.xz* which can be downloaded [here](https://releases.linaro.org/components/toolchain/binaries/latest-7/aarch64-elf/) should work.
 
 First edit the file *Rules.mk* and set the *PREFIX* of your toolchain commands. Alternatively you can create a *Config.mk* file (which is ignored by git) and set the *PREFIX* variable to the prefix of your compiler like this (don't forget the dash at the end):
 
-`PREFIX = aarch64-linux-gnu-`
+`PREFIX = aarch64-elf-`
 
 Then go to the build root of Circle and do:
 
