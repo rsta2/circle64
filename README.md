@@ -8,6 +8,8 @@ Circle64
 Overview
 --------
 
+The Circle64 project is discontinued. Please use the [Circle project](https://github.com/rsta2/circle) instead, which supports both 32-bit and 64-bit applications now!
+
 Circle64 is a 64-bit C++ bare metal programming environment for the Raspberry Pi 3. It provides several ready-tested C++ classes which can be used to control different hardware features of the Raspberry Pi 3. Together with Circle there are delivered some samples which demonstrate the use of its classes.
 
 This is a 64-bit port (using AArch64) of Circle (32-bit). At the moment there are only some basic features supported:
